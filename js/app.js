@@ -1,5 +1,5 @@
-(function (window) {
-	'use strict';
+;(function(window) {
+	'use strict'
 
 	let todos_test = [
 		{
@@ -25,12 +25,12 @@
 			return todos
 		},
 		active(todos) {
-			return todos.filter((item) => {
+			return todos.filter(item => {
 				return !item.completed
 			})
 		},
 		completed(todos) {
-			return todos.filter((item) => {
+			return todos.filter(item => {
 				return item.completed
 			})
 		}
@@ -41,39 +41,34 @@
 	// directive hook function
 	// v-focus
 	Vue.directive('focus', {
-		inserted: function (el) {
+		inserted: function(el) {
 			el.focus()
 		}
 	})
 
-	let STORAGE_KEY = 'todos-vuejs-2.0'
+	let STORAGE_KEY = 'vue-todo-item'
 	let app = new Vue({
 		el: '.todoapp',
 		data() {
 			return {
 				newTodo: '',
-				// JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
 				todos: [],
 				currentEditing: null,
 				visibility: 'all'
-				// here this is window
 			}
 		},
 
 		// if use this keyword, do not use arrow function, otherwise this point to window
 		methods: {
 			addTodo(event) {
-				// can not define newTodo
-				// let content = event.target.value.trim();
 				if (!this.newTodo) return
-				let lastTodo = this.todos[this.length - 1]
-				let id = lastTodo ? lastTodo.id + 1 : 1
+				const lastTodo = this.todos[this.todos.length - 1]
+				const id = lastTodo ? lastTodo.id + 1 : 1
 				this.todos.push({
 					id,
 					content: this.newTodo,
 					completed: false
 				})
-				// event.target.value = ''
 				this.newTodo = ''
 			},
 
@@ -117,7 +112,6 @@
 		// 但computed有缓存,其触发依赖于计算的数据
 		// 方法只要模板发生变化就会被调用
 		computed: {
-			// UI loop filterTodos, it is filted result of todos
 			filteredTodos() {
 				return filter[this.visibility](this.todos)
 			},
@@ -128,11 +122,12 @@
 
 			toggleState: {
 				get() {
+					//check or uncheck based on leftTodoCount
 					return this.leftTodoCount === 0
 				},
 
 				set(val) {
-					this.todos.forEach(item => item.completed = val)
+					this.todos.forEach(item => (item.completed = val))
 				}
 			}
 		},
@@ -161,15 +156,13 @@
 			// deep: true
 			// immediate: true
 			todos: {
-				handler: function (val, oldVal) {
-					window.localStorage.setItem(STORAGE_KEY, JSON.stringify(val));
+				handler: function(val, oldVal) {
+					window.localStorage.setItem(STORAGE_KEY, JSON.stringify(val))
 				},
 				deep: true
 			}
 		},
 
-		// here is just for example
-		// 可以直接赋值在data属性里面
 		created() {
 			// todos_test.forEach((data) => {
 			// 	this.todos.push(data)
@@ -178,11 +171,10 @@
 		}
 	})
 
-	function onHashChange() {
+	const onHashChange = () => {
 		let visibility = window.location.hash.replace(/#\/?/, '')
 		if (filter[visibility]) {
 			app.visibility = visibility
-		// 容错
 		} else {
 			window.location.hash = ''
 			app.visibility = 'all'
@@ -195,4 +187,4 @@
 	onHashChange()
 
 	//app.$mount('.todoapp')
-})(window);
+})(window)

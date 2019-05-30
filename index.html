@@ -1,30 +1,54 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Template • TodoMVC</title>
-		<link rel="stylesheet" href="node_modules/todomvc-common/base.css">
-		<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
-		<link rel="stylesheet" href="css/app.css">
+		<link rel="stylesheet" href="node_modules/todomvc-common/base.css" />
+		<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css" />
+		<link rel="stylesheet" href="css/app.css" />
 	</head>
 	<body>
 		<section class="todoapp">
 			<header class="header">
 				<h1>todos</h1>
-				<input @keyup.enter="addTodo" v-model.trim="newTodo" class="new-todo" placeholder="What needs to be done?" v-focus>
+				<input
+					@keyup.enter="addTodo"
+					v-model.trim="newTodo"
+					class="new-todo"
+					placeholder="What needs to be done?"
+					v-focus
+				/>
 			</header>
 			<section class="main" v-cloak>
-				<input id="toggle-all" class="toggle-all" type="checkbox" v-model="toggleState">
+				<input
+					id="toggle-all"
+					class="toggle-all"
+					type="checkbox"
+					v-model="toggleState"
+				/>
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
-					<li v-for="(todo, index) in filteredTodos" :key="todo.id" :class="{completed: todo.completed,editing: todo === currentEditing}">
+					<li
+						v-for="(todo, index) in filteredTodos"
+						:key="todo.id"
+						:class="{completed: todo.completed,editing: todo === currentEditing}"
+					>
 						<div class="view">
-							<input class="toggle" type="checkbox" v-model="todo.completed">
-							<label @dblclick="editTodo(todo)" @keyup.enter="doneEdit(todo)">{{ todo.content }}</label>
+							<input class="toggle" type="checkbox" v-model="todo.completed" />
+							<label @dblclick="editTodo(todo)" @keyup.enter="doneEdit(todo)">{{
+								todo.content
+							}}</label>
 							<button class="destroy" @click="removeTodo(index)"></button>
 						</div>
-						<input class="edit" v-model.trim="todo.content" v-editing-focus="todo === currentEditing" @blur="doneEdit(todo, index)" @keyup.esc="cancelEdit(todo)" @keyup.enter="doneEdit(todo, index)">
+						<input
+							class="edit"
+							v-model.trim="todo.content"
+							v-editing-focus="todo === currentEditing"
+							@blur="doneEdit(todo, index)"
+							@keyup.esc="cancelEdit(todo)"
+							@keyup.enter="doneEdit(todo, index)"
+						/>
 					</li>
 				</ul>
 			</section>
@@ -36,19 +60,34 @@
 					method没有缓存,多次掉用则重复执行多次,哪怕返回固定值
 					computed则真正依赖于data中的数据,若数据没变,不会执行,返回数据的缓存,所以更高效
 				-->
-				<span class="todo-count"><strong>{{ leftTodoCount }}</strong> {{ leftTodoCount | pluralize }} left</span>
+				<span class="todo-count"
+					><strong>{{ leftTodoCount }}</strong>
+					{{ leftTodoCount | pluralize }} left</span
+				>
 				<ul class="filters">
 					<li>
 						<a :class="{selected: visibility === 'all'}" href="#/">All</a>
 					</li>
 					<li>
-						<a href="#/active" :class="{selected: visibility === 'active'}">Active</a>
+						<a href="#/active" :class="{selected: visibility === 'active'}"
+							>Active</a
+						>
 					</li>
 					<li>
-						<a href="#/completed" :class="{selected: visibility === 'completed'}">Completed</a>
+						<a
+							href="#/completed"
+							:class="{selected: visibility === 'completed'}"
+							>Completed</a
+						>
 					</li>
 				</ul>
-				<button class="clear-completed" @click="clear" v-show="todos.length > leftTodoCount">Clear completed</button>
+				<button
+					class="clear-completed"
+					@click="clear"
+					v-show="todos.length > leftTodoCount"
+				>
+					Clear completed
+				</button>
 			</footer>
 		</section>
 		<footer class="info">
